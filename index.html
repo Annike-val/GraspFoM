@@ -26,8 +26,9 @@
       <a class="brand" href="#">GraspFoM</a>
       <div class="nav-links">
         <a href="#abstract">Abstract</a>
-        <a href="#method">Method</a>
         <a href="#results">Results</a>
+        <a href="#qualitative">Qualitative</a>
+        <a href="#interactive-3d">3D View</a>
         <a href="#paper">Paper</a>
         <a href="#citation">Citation</a>
       </div>
@@ -39,6 +40,24 @@
       <div class="hero-copy">
         <p class="venue">ACM Multimedia 2026 submission</p>
         <h1>GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors</h1>
+
+        <div class="author-block" aria-label="Authors and affiliations">
+          <p class="authors">
+            <span>Dongli Wu<sup>1</sup></span>
+            <span>Xiaobao Wei<sup>2</sup></span>
+            <span>Hao Wang<sup>2</sup></span>
+            <span>Qiaochu Dong<sup>2</sup></span>
+            <span>Ying Li<sup>2,3</sup></span>
+            <span>Qingpo Wuwu<sup>2</sup></span>
+            <span>Ming Lu<sup>2</sup></span>
+            <span>Wufan Zhao<sup>1</sup></span>
+          </p>
+          <p class="affiliations">
+            <span><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)</span>
+            <span><sup>2</sup>Peking University</span>
+            <span><sup>3</sup>The Hong Kong University of Science and Technology</span>
+          </p>
+        </div>
 
         <div class="badge-row" aria-label="Project links">
           <a href="./static/papers/graspfom.pdf">
@@ -69,9 +88,9 @@
             <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
             <span>Paper</span>
           </a>
-          <a class="button" href="#method">
-            <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
-            <span>Method</span>
+          <a class="button" href="#results">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <span>Results</span>
           </a>
           <a class="button" href="#citation">
             <i class="fa-solid fa-quote-right" aria-hidden="true"></i>
@@ -155,118 +174,230 @@
       </div>
     </section>
 
-    <section id="method" class="section method-section">
-      <div class="section-heading">
-        <p class="eyebrow">Method</p>
-        <h2>A Shared 3D Latent for Grasping and Reconstruction</h2>
-        <p>
-          GraspFoM keeps reconstruction and grasp prediction in one object-centered representation instead
-          of treating them as isolated tasks.
-        </p>
-      </div>
-
-      <div class="method-diagram" aria-label="GraspFoM method flow">
-        <div class="flow-column inputs">
-          <div class="token token-vision">RGB Image</div>
-          <div class="token token-mask">Object Mask</div>
-          <div class="token token-point">Point Map</div>
-        </div>
-        <div class="flow-arrow" aria-hidden="true"></div>
-        <div class="backbone">
-          <span class="block-label">Frozen SAM3D Prior + Trainable GraspFoM Heads</span>
-          <div class="layer-row">
-            <span>Object Latent</span>
-            <span>Point-Shape Fusion</span>
-            <span>Global Shape Tokens</span>
-            <span>Surface Queries</span>
-          </div>
-          <div class="register-lane">
-            <span>Pose Diffuser</span>
-            <span>Scoring Heads</span>
-            <span>Residual Latent Updater</span>
-          </div>
-        </div>
-        <div class="flow-arrow" aria-hidden="true"></div>
-        <div class="flow-column outputs">
-          <div class="token token-grasp">6-DoF Grasps</div>
-          <div class="token token-score">Grasp Scores</div>
-          <div class="token token-recon">3D Assets</div>
-        </div>
-      </div>
-
-      <div class="inference-strip" id="code-release">
-        <div>
-          <strong>Training path</strong>
-          <span>joint grasp losses, point-wise score supervision, and reconstruction regularization.</span>
-        </div>
-        <div>
-          <strong>Inference path</strong>
-          <span>parallel anchor denoising, score-based grasp ranking, and mesh/3DGS asset recovery.</span>
-        </div>
-        <div>
-          <strong>Code release</strong>
-          <span>implementation and trained weights will be released after the paper process.</span>
-        </div>
-      </div>
-    </section>
-
     <section id="results" class="section results-section">
       <div class="section-heading">
         <p class="eyebrow">Results</p>
-        <h2>Unified Gains in Grasping and 3D Reconstruction</h2>
+        <h2>State-of-the-Art Grasping and Reconstruction on GraspNet-1B</h2>
         <p>
-          The framework is evaluated on grasp prediction and reconstruction quality, with component-wise
-          ablations isolating the contribution of fusion, anchor diffusion, scoring, and latent updating.
+          GraspFoM is evaluated on the official GraspNet-1Billion benchmark for grasp pose prediction
+          and object-level 3D reconstruction. It is trained only on the official GraspNet-1B training
+          split, while several unified baselines rely on additional pretraining or multi-view inputs.
         </p>
       </div>
 
-      <div class="table-grid">
-        <article class="result-card">
-          <h3>Grasp Pose Prediction</h3>
-          <div class="mini-metric">
-            <span class="metric-value">SOTA</span>
-            <span class="metric-label">on GraspNet-1B splits</span>
-          </div>
-          <p>
-            Anchor-initialized diffusion produces continuous multimodal poses while the reconstruction-aware
-            scorer ranks surface points and generated grasps.
-          </p>
+      <div class="metric-grid">
+        <article class="metric-card">
+          <span class="metric-kicker">Seen AP</span>
+          <strong>78.87</strong>
+          <span>+6.44 absolute AP gain</span>
         </article>
-
-        <article class="result-card">
-          <h3>Object Reconstruction</h3>
-          <div class="mini-metric">
-            <span class="metric-value">Mesh + 3DGS</span>
-            <span class="metric-label">from the shared object latent</span>
-          </div>
-          <p>
-            The same representation supports high-fidelity object assets, allowing grasp prediction to stay
-            grounded in object-level geometry rather than isolated local candidates.
-          </p>
+        <article class="metric-card">
+          <span class="metric-kicker">Similar AP</span>
+          <strong>73.34</strong>
+          <span>+7.89 absolute AP gain</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-kicker">Novel AP</span>
+          <strong>54.32</strong>
+          <span>+25.83 absolute AP gain</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-kicker">Reconstruction</span>
+          <strong>2.74 CD</strong>
+          <span>96.08 F1 and 87.18 NC</span>
         </article>
       </div>
 
-      <article class="result-card wide">
-        <h3>What Each Component Contributes</h3>
-        <div class="component-grid">
-          <div>
-            <strong>Point-shape fusion</strong>
-            <span>connects queried surface points with local latent-grid evidence.</span>
-          </div>
-          <div>
-            <strong>Global shape attention</strong>
-            <span>adds object-level context for novel and partially observed objects.</span>
-          </div>
-          <div>
-            <strong>Anchor initialization</strong>
-            <span>starts diffusion from learned grasp modes instead of pure Gaussian noise.</span>
-          </div>
-          <div>
-            <strong>Latent updating</strong>
-            <span>feeds grasp-relevant structure back into reconstruction while preserving geometry.</span>
-          </div>
+      <article class="result-panel">
+        <div class="panel-heading">
+          <h3>Grasp Pose Prediction</h3>
+          <p>
+            AP, AP<sub>0.8</sub>, and AP<sub>0.4</sub> are reported on Seen, Similar, and Novel splits.
+            G and R indicate grasp and reconstruction outputs.
+          </p>
+        </div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="2">Output</th>
+                <th colspan="3">Seen</th>
+                <th colspan="3">Similar</th>
+                <th colspan="3">Novel</th>
+              </tr>
+              <tr>
+                <th>G</th>
+                <th>R</th>
+                <th>AP</th>
+                <th>AP<sub>0.8</sub></th>
+                <th>AP<sub>0.4</sub></th>
+                <th>AP</th>
+                <th>AP<sub>0.8</sub></th>
+                <th>AP<sub>0.4</sub></th>
+                <th>AP</th>
+                <th>AP<sub>0.8</sub></th>
+                <th>AP<sub>0.4</sub></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>GG-CNN</td><td>Yes</td><td>No</td><td>15.48</td><td>21.84</td><td>10.25</td><td>13.26</td><td>18.37</td><td>4.62</td><td>5.52</td><td>5.93</td><td>1.86</td></tr>
+              <tr><td>MultiObject MultiGrasp</td><td>Yes</td><td>No</td><td>15.97</td><td>23.66</td><td>10.80</td><td>15.41</td><td>20.21</td><td>7.06</td><td>7.64</td><td>8.69</td><td>2.52</td></tr>
+              <tr><td>CenterGrasp</td><td>Yes</td><td>Yes</td><td>16.46</td><td>20.24</td><td>11.74</td><td>9.52</td><td>11.92</td><td>5.71</td><td>1.60</td><td>1.89</td><td>1.12</td></tr>
+              <tr><td>GPD</td><td>Yes</td><td>No</td><td>22.87</td><td>28.53</td><td>12.84</td><td>21.33</td><td>27.83</td><td>9.64</td><td>8.24</td><td>8.89</td><td>2.67</td></tr>
+              <tr><td>PointNetGPD</td><td>Yes</td><td>No</td><td>25.96</td><td>33.01</td><td>15.37</td><td>22.68</td><td>29.15</td><td>10.76</td><td>9.23</td><td>9.89</td><td>2.74</td></tr>
+              <tr><td>GraspNet</td><td>Yes</td><td>No</td><td>27.56</td><td>33.43</td><td>16.59</td><td>26.11</td><td>34.18</td><td>14.23</td><td>10.55</td><td>11.25</td><td>3.98</td></tr>
+              <tr><td>GSNet</td><td>Yes</td><td>No</td><td>67.12</td><td>78.46</td><td>60.90</td><td>54.81</td><td>66.72</td><td>46.17</td><td>24.31</td><td>30.52</td><td>14.23</td></tr>
+              <tr><td>Scale-Balanced Grasp</td><td>Yes</td><td>No</td><td>63.83</td><td>74.25</td><td>58.66</td><td>58.46</td><td>70.05</td><td>51.32</td><td>24.63</td><td>31.05</td><td>12.85</td></tr>
+              <tr><td>HGGD</td><td>Yes</td><td>No</td><td>64.45</td><td>72.81</td><td>61.16</td><td>53.59</td><td>64.12</td><td>45.91</td><td>24.59</td><td>30.46</td><td>15.58</td></tr>
+              <tr><td>EconomicGrasp</td><td>Yes</td><td>No</td><td>68.21</td><td>79.60</td><td>63.54</td><td>61.19</td><td>73.60</td><td>53.77</td><td>25.48</td><td>31.46</td><td>13.85</td></tr>
+              <tr><td>MG-Grasp</td><td>Yes</td><td>Yes</td><td>66.80</td><td>-</td><td>-</td><td>57.35</td><td>-</td><td>-</td><td>23.22</td><td>-</td><td>-</td></tr>
+              <tr><td>ZeroGrasp</td><td>Yes</td><td>Yes</td><td>72.43</td><td>83.12</td><td>65.57</td><td>65.45</td><td>78.32</td><td>55.48</td><td>28.49</td><td>34.21</td><td>15.80</td></tr>
+              <tr class="ours-row"><td>GraspFoM</td><td>Yes</td><td>Yes</td><td>78.87</td><td>89.60</td><td>71.13</td><td>73.34</td><td>87.84</td><td>64.12</td><td>54.32</td><td>64.01</td><td>29.36</td></tr>
+            </tbody>
+          </table>
         </div>
       </article>
+
+      <article class="result-panel">
+        <div class="panel-heading">
+          <h3>3D Reconstruction</h3>
+          <p>Geometry quality on GraspNet-1B using CD, F1-Score@10mm, and Normal Consistency.</p>
+        </div>
+        <div class="table-wrap compact">
+          <table class="results-table">
+            <thead>
+              <tr><th>Method</th><th>Segmented</th><th>CD ↓</th><th>F1 ↑</th><th>NC ↑</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Minkowski</td><td>Yes</td><td>6.84</td><td>81.45</td><td>77.89</td></tr>
+              <tr><td>OCNN</td><td>Yes</td><td>7.23</td><td>82.22</td><td>78.44</td></tr>
+              <tr><td>OctMAE</td><td>No</td><td>7.57</td><td>78.38</td><td>75.19</td></tr>
+              <tr><td>ZeroGrasp</td><td>Yes</td><td>6.05</td><td>84.08</td><td>78.46</td></tr>
+              <tr class="ours-row"><td>GraspFoM</td><td>Yes</td><td>2.74</td><td>96.08</td><td>87.18</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section id="qualitative" class="section qualitative-section">
+      <div class="section-heading">
+        <p class="eyebrow">Qualitative Results</p>
+        <h2>Visual Evidence Across Reconstruction, Scenes, and Pose Assets</h2>
+        <p>
+          GraspFoM predicts grasp poses together with object assets from the shared 3D latent. The examples
+          below show reconstructed geometry, 6-DoF grasp visualizations, scene-level outputs, and
+          browser-native 3D assets rendered from the same source used for the paper figures.
+        </p>
+      </div>
+
+      <div class="qualitative-gallery">
+        <article class="qual-card feature">
+          <img src="./static/images/results/compare.jpg" alt="Reconstruction and grasp pose visualization comparison">
+          <div>
+            <h3>Benchmark Reconstruction and Grasp Pose Comparison</h3>
+            <p>
+              Compared with reconstruction-aware baselines, GraspFoM recovers more complete object geometry
+              and produces grasp poses with more stable contact regions and approach directions.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="asset-showcase">
+        <div class="showcase-heading">
+          <h3>Single-Object Reconstruction Renders</h3>
+          <p>Object-level assets are arranged as an interactive result wall.</p>
+        </div>
+        <div class="asset-grid single-object-wall" aria-label="Single-object reconstruction render gallery">
+          <figure class="asset-tile">
+            <img src="./static/images/assets/centered/apple.png" alt="Single-object apple reconstruction render">
+          </figure>
+          <figure class="asset-tile">
+            <img src="./static/images/assets/centered/c1.png" alt="Single-object can reconstruction render">
+          </figure>
+          <figure class="asset-tile">
+            <img src="./static/images/assets/centered/ba1.png" alt="Single-object object reconstruction render">
+          </figure>
+          <figure class="asset-tile">
+            <img src="./static/images/assets/centered/m1.png" alt="Single-object reconstruction render with pose">
+          </figure>
+        </div>
+      </div>
+
+      <div class="asset-showcase">
+        <div class="showcase-heading">
+          <h3>Scene-Level Composite Results</h3>
+          <p>Scene examples are spread out for quick visual comparison across different object layouts.</p>
+        </div>
+        <div class="asset-grid scene-wall" aria-label="Scene-level composite result gallery">
+          <figure class="asset-tile">
+            <img src="./static/images/assets/0001_composite.png" alt="Scene-level composite result 0001">
+          </figure>
+          <figure class="asset-tile">
+            <img src="./static/images/assets/0059_composite.png" alt="Scene-level composite result 0059">
+          </figure>
+          <figure class="asset-tile">
+            <img src="./static/images/assets/0064_composite.png" alt="Scene-level composite result 0064">
+          </figure>
+          <figure class="asset-tile">
+            <img src="./static/images/assets/0196_composite.png" alt="Scene-level composite result 0196">
+          </figure>
+        </div>
+      </div>
+
+      <div class="asset-showcase interactive-models" id="interactive-3d">
+        <div class="showcase-heading">
+          <h3>Interactive 3D Pose Assets</h3>
+          <p>Rotate and zoom the reconstructed object-pose assets directly in the browser.</p>
+        </div>
+        <div class="model-grid">
+          <article class="model-card">
+            <model-viewer
+              src="./static/models/cola.glb"
+              alt="Interactive cola reconstruction and grasp pose asset"
+              camera-controls
+              auto-rotate
+              auto-rotate-delay="1200"
+              rotation-per-second="18deg"
+              interaction-prompt="none"
+              environment-image="neutral"
+              shadow-intensity="0.9"
+              shadow-softness="0.78"
+              exposure="1.28"
+              camera-orbit="38deg 68deg 170%"
+              min-camera-orbit="auto 12deg 110%"
+              max-camera-orbit="auto 88deg 260%">
+            </model-viewer>
+            <div>
+              <h4>Cola</h4>
+            </div>
+          </article>
+          <article class="model-card">
+            <model-viewer
+              src="./static/models/wine.glb"
+              alt="Interactive wine reconstruction and grasp pose asset"
+              camera-controls
+              auto-rotate
+              auto-rotate-delay="1200"
+              rotation-per-second="18deg"
+              interaction-prompt="none"
+              environment-image="neutral"
+              shadow-intensity="0.9"
+              shadow-softness="0.78"
+              exposure="1.28"
+              camera-orbit="38deg 68deg 170%"
+              min-camera-orbit="auto 12deg 110%"
+              max-camera-orbit="auto 88deg 260%">
+            </model-viewer>
+            <div>
+              <h4>Wine</h4>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section id="paper" class="section figures-section">
@@ -315,6 +446,7 @@
   </footer>
 
   <script src="./static/js/graspfom.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </body>
 
 </html>

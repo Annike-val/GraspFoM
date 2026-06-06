@@ -1,10 +1,16 @@
 # GraspFoM
 GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors
 
+Dongli Wu<sup>1</sup>, Xiaobao Wei<sup>2</sup>, Hao Wang<sup>2</sup>, Qiaochu Dong<sup>2</sup>, Ying Li<sup>2,3</sup>, Qingpo Wuwu<sup>2</sup>, Ming Lu<sup>2</sup>, Wufan Zhao<sup>1</sup>
+
+<sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)  
+<sup>2</sup>Peking University  
+<sup>3</sup>The Hong Kong University of Science and Technology
+
 <p align="center">
-  <a href="index.html"><img src="https://img.shields.io/badge/Project-Website-blue"></a>
-  <a href="static/papers/graspfom.pdf"><img src="https://img.shields.io/static/v1?label=Paper&message=PDF&color=red&logo=adobeacrobatreader"></a>
-  <a href="#citation"><img src="https://img.shields.io/badge/Citation-BibTeX-green"></a>
+  <a href="https://annike-val.github.io/GraspFoM/"><img src="https://img.shields.io/badge/Project-Website-blue"></a>
+  <a href="https://annike-val.github.io/GraspFoM/static/papers/graspfom.pdf"><img src="https://img.shields.io/static/v1?label=Paper&message=PDF&color=red&logo=adobeacrobatreader"></a>
+  <a href="https://annike-val.github.io/GraspFoM/#citation"><img src="https://img.shields.io/badge/Citation-BibTeX-green"></a>
 </p>
 
 ## Abstract
@@ -16,7 +22,9 @@ Figure: Overview of GraspFoM. (a) During training, we first fuse a shared shape 
 
 ## Project Page
 
-Open `index.html` in a browser to view the static project page.
+The public project page is available at:
+
+https://annike-val.github.io/GraspFoM/
 
 ## Citation
 
