@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors.">
+  <meta name="keywords" content="GraspFoM, robotic grasping, 6-DoF grasping, 3D foundation model, SAM3D, reconstruction, 3D Gaussian Splatting">
+  <meta property="og:title" content="GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors">
+  <meta property="og:description" content="A unified framework that builds a shared 3D object latent for reconstruction and 6-DoF grasp pose prediction.">
+  <meta property="og:image" content="./static/images/grasp_pipe.png">
+  <title>GraspFoM: Reconstruction-Driven Robotic Grasping</title>
+
+  <link rel="icon" type="image/png" href="./static/images/grasp_pipe.png">
+  <link rel="apple-touch-icon" href="./static/images/grasp_pipe.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./static/css/graspfom.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand" href="#">GraspFoM</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#paper">Paper</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="venue">ACM Multimedia 2026 submission</p>
+        <h1>GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors</h1>
+
+        <div class="badge-row" aria-label="Project links">
+          <a href="./static/papers/graspfom.pdf">
+            <img src="https://img.shields.io/static/v1?label=Paper&message=PDF&color=red&logo=adobeacrobatreader" alt="Paper PDF">
+          </a>
+          <a href="#citation">
+            <img src="https://img.shields.io/badge/Citation-BibTeX-green" alt="BibTeX citation">
+          </a>
+          <a href="#code-release">
+            <img src="https://img.shields.io/badge/Code-Coming%20Soon-111111&logo=github" alt="Code coming soon">
+          </a>
+        </div>
+
+        <p class="tagline">
+          GraspFoM turns partial RGB-D observations into a shared 3D object latent, then uses that latent
+          to jointly reconstruct high-fidelity 3D assets and generate continuous 6-DoF grasp poses.
+        </p>
+
+        <div class="meta-row">
+          <span>3D Foundation Priors</span>
+          <span>6-DoF Grasping</span>
+          <span>Object Reconstruction</span>
+          <span>Multimodal Pose Generation</span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="button primary" href="./static/papers/graspfom.pdf">
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+            <span>Paper</span>
+          </a>
+          <a class="button" href="#method">
+            <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+            <span>Method</span>
+          </a>
+          <a class="button" href="#citation">
+            <i class="fa-solid fa-quote-right" aria-hidden="true"></i>
+            <span>BibTeX</span>
+          </a>
+        </div>
+      </div>
+
+      <figure class="hero-media" aria-label="GraspFoM overview figure">
+        <img src="./static/images/grasp_pipe.png" alt="Overview of the GraspFoM framework">
+        <figcaption>
+          Training fuses SAM3D object priors with grasp supervision; inference performs anchor-based
+          denoising, score-based selection, and asset reconstruction from the shared latent.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="abstract" class="section narrow">
+      <h2>Abstract</h2>
+      <p>
+        Robotic grasping remains challenging under partial observations because reliable grasping depends on
+        both local contact cues and object-level 3D structure. Existing geometry-aware methods often use
+        reconstruction as an intermediate prediction, leaving the geometry weakly coupled with grasp planning.
+      </p>
+      <p>
+        GraspFoM leverages 3D foundation priors from SAM3D to build a shared object latent for both
+        reconstruction and grasp pose prediction. On top of this latent, it introduces anchor-initialized
+        truncated diffusion for continuous multimodal 6-DoF grasp generation, together with a
+        reconstruction-aware scorer and residual latent updater that connect grasp supervision back to
+        object reconstruction.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="stat-strip">
+        <div>
+          <strong>Shared</strong>
+          <span>3D object latent for reconstruction and grasping</span>
+        </div>
+        <div>
+          <strong>6-DoF</strong>
+          <span>continuous anchor-initialized grasp generation</span>
+        </div>
+        <div>
+          <strong>Mesh + 3DGS</strong>
+          <span>high-fidelity object asset reconstruction</span>
+        </div>
+        <div>
+          <strong>SOTA</strong>
+          <span>grasping and reconstruction performance</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="highlight-grid">
+        <article class="highlight-card">
+          <div class="card-icon"><i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i></div>
+          <h3>Foundation-Prior Object Latent</h3>
+          <p>
+            SAM3D priors provide object-centric point maps and compact shape latents that encode local
+            surface geometry and global object structure from partial observations.
+          </p>
+        </article>
+        <article class="highlight-card">
+          <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+          <h3>Anchor-Initialized Diffusion</h3>
+          <p>
+            Learned grasp anchors initialize truncated denoising in normalized pose space, avoiding discrete
+            candidate enumeration while preserving multimodal grasp hypotheses.
+          </p>
+        </article>
+        <article class="highlight-card">
+          <div class="card-icon"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></div>
+          <h3>Reconstruction-Aware Feedback</h3>
+          <p>
+            Point-wise scores aggregate grasp-relevant features for a lightweight residual updater, letting
+            manipulation supervision refine the shared object latent without discarding geometry.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="method" class="section method-section">
+      <div class="section-heading">
+        <p class="eyebrow">Method</p>
+        <h2>A Shared 3D Latent for Grasping and Reconstruction</h2>
+        <p>
+          GraspFoM keeps reconstruction and grasp prediction in one object-centered representation instead
+          of treating them as isolated tasks.
+        </p>
+      </div>
+
+      <div class="method-diagram" aria-label="GraspFoM method flow">
+        <div class="flow-column inputs">
+          <div class="token token-vision">RGB Image</div>
+          <div class="token token-mask">Object Mask</div>
+          <div class="token token-point">Point Map</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"></div>
+        <div class="backbone">
+          <span class="block-label">Frozen SAM3D Prior + Trainable GraspFoM Heads</span>
+          <div class="layer-row">
+            <span>Object Latent</span>
+            <span>Point-Shape Fusion</span>
+            <span>Global Shape Tokens</span>
+            <span>Surface Queries</span>
+          </div>
+          <div class="register-lane">
+            <span>Pose Diffuser</span>
+            <span>Scoring Heads</span>
+            <span>Residual Latent Updater</span>
+          </div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"></div>
+        <div class="flow-column outputs">
+          <div class="token token-grasp">6-DoF Grasps</div>
+          <div class="token token-score">Grasp Scores</div>
+          <div class="token token-recon">3D Assets</div>
+        </div>
+      </div>
+
+      <div class="inference-strip" id="code-release">
+        <div>
+          <strong>Training path</strong>
+          <span>joint grasp losses, point-wise score supervision, and reconstruction regularization.</span>
+        </div>
+        <div>
+          <strong>Inference path</strong>
+          <span>parallel anchor denoising, score-based grasp ranking, and mesh/3DGS asset recovery.</span>
+        </div>
+        <div>
+          <strong>Code release</strong>
+          <span>implementation and trained weights will be released after the paper process.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="section results-section">
+      <div class="section-heading">
+        <p class="eyebrow">Results</p>
+        <h2>Unified Gains in Grasping and 3D Reconstruction</h2>
+        <p>
+          The framework is evaluated on grasp prediction and reconstruction quality, with component-wise
+          ablations isolating the contribution of fusion, anchor diffusion, scoring, and latent updating.
+        </p>
+      </div>
+
+      <div class="table-grid">
+        <article class="result-card">
+          <h3>Grasp Pose Prediction</h3>
+          <div class="mini-metric">
+            <span class="metric-value">SOTA</span>
+            <span class="metric-label">on GraspNet-1B splits</span>
+          </div>
+          <p>
+            Anchor-initialized diffusion produces continuous multimodal poses while the reconstruction-aware
+            scorer ranks surface points and generated grasps.
+          </p>
+        </article>
+
+        <article class="result-card">
+          <h3>Object Reconstruction</h3>
+          <div class="mini-metric">
+            <span class="metric-value">Mesh + 3DGS</span>
+            <span class="metric-label">from the shared object latent</span>
+          </div>
+          <p>
+            The same representation supports high-fidelity object assets, allowing grasp prediction to stay
+            grounded in object-level geometry rather than isolated local candidates.
+          </p>
+        </article>
+      </div>
+
+      <article class="result-card wide">
+        <h3>What Each Component Contributes</h3>
+        <div class="component-grid">
+          <div>
+            <strong>Point-shape fusion</strong>
+            <span>connects queried surface points with local latent-grid evidence.</span>
+          </div>
+          <div>
+            <strong>Global shape attention</strong>
+            <span>adds object-level context for novel and partially observed objects.</span>
+          </div>
+          <div>
+            <strong>Anchor initialization</strong>
+            <span>starts diffusion from learned grasp modes instead of pure Gaussian noise.</span>
+          </div>
+          <div>
+            <strong>Latent updating</strong>
+            <span>feeds grasp-relevant structure back into reconstruction while preserving geometry.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="paper" class="section figures-section">
+      <div class="section-heading">
+        <p class="eyebrow">Paper</p>
+        <h2>Project Assets</h2>
+        <p>
+          The current project package includes the paper PDF and the overview figure used throughout the
+          website.
+        </p>
+      </div>
+
+      <div class="figure-gallery single">
+        <article class="figure-card">
+          <img src="./static/images/grasp_pipe.png" alt="GraspFoM pipeline overview">
+          <div>
+            <h3>GraspFoM Pipeline</h3>
+            <p>Shared foundation-prior reconstruction and anchor-conditioned grasp generation.</p>
+            <a href="./static/images/grasp_pipe.png">Open image</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="citation" class="section citation-section">
+      <div class="section-heading">
+        <p class="eyebrow">Citation</p>
+        <h2>BibTeX</h2>
+      </div>
+      <div class="bibtex-box">
+        <button class="copy-button" type="button" data-copy="#bibtex">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i>
+          <span>Copy</span>
+        </button>
+        <pre id="bibtex">@misc{graspfom2026,
+  title={GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors},
+  year={2026},
+  note={Project page}
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>GraspFoM project page.</p>
+  </footer>
+
+  <script src="./static/js/graspfom.js"></script>
+</body>
+
+</html>
