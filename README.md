@@ -29,9 +29,10 @@ https://annike-val.github.io/GraspFoM/
 ## Citation
 
 ```bibtex
-@misc{graspfom2026,
+@article{wu2026graspfom,
   title={GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors},
-  year={2026},
-  note={Project page}
+  author={Wu, Dongli and Wei, Xiaobao and Wang, Hao and Dong, Qiaochu and Li, Ying and Wuwu, Qingpo and Lu, Ming and Zhao, Wufan},
+  journal={arXiv preprint},
+  year={2026}
 }
 ```

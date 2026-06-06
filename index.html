@@ -25,11 +25,10 @@
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="#">GraspFoM</a>
       <div class="nav-links">
+        <a href="#interactive-3d">3D View</a>
         <a href="#abstract">Abstract</a>
         <a href="#results">Results</a>
         <a href="#qualitative">Qualitative</a>
-        <a href="#interactive-3d">3D View</a>
-        <a href="#paper">Paper</a>
         <a href="#citation">Citation</a>
       </div>
     </nav>
@@ -38,7 +37,6 @@
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="venue">ACM Multimedia 2026 submission</p>
         <h1>GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors</h1>
 
         <div class="author-block" aria-label="Authors and affiliations">
@@ -106,6 +104,58 @@
           denoising, score-based selection, and asset reconstruction from the shared latent.
         </figcaption>
       </figure>
+    </section>
+
+    <section id="interactive-3d" class="section interactive-models">
+      <div class="section-heading">
+        <p class="eyebrow">Qualitative Results</p>
+        <h2>Interactive 3D Pose Assets</h2>
+        <p>Rotate and zoom the reconstructed object-pose assets directly in the browser.</p>
+      </div>
+      <div class="model-grid">
+        <article class="model-card">
+          <model-viewer
+            src="./static/models/cola.glb"
+            alt="Interactive cola reconstruction and grasp pose asset"
+            camera-controls
+            auto-rotate
+            auto-rotate-delay="1200"
+            rotation-per-second="18deg"
+            interaction-prompt="none"
+            environment-image="neutral"
+            shadow-intensity="0.9"
+            shadow-softness="0.78"
+            exposure="1.28"
+            camera-orbit="38deg 68deg 170%"
+            min-camera-orbit="auto 12deg 110%"
+            max-camera-orbit="auto 88deg 260%">
+          </model-viewer>
+          <div>
+            <h4>Cola</h4>
+          </div>
+        </article>
+        <article class="model-card">
+          <model-viewer
+            src="./static/models/wine.glb"
+            alt="Interactive wine reconstruction and grasp pose asset"
+            camera-controls
+            auto-rotate
+            auto-rotate-delay="1200"
+            rotation-per-second="18deg"
+            interaction-prompt="none"
+            environment-image="neutral"
+            shadow-intensity="0.9"
+            shadow-softness="0.78"
+            exposure="1.28"
+            camera-orbit="38deg 68deg 170%"
+            min-camera-orbit="auto 12deg 110%"
+            max-camera-orbit="auto 88deg 260%">
+          </model-viewer>
+          <div>
+            <h4>Wine</h4>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section id="abstract" class="section narrow">
@@ -287,8 +337,7 @@
         <h2>Visual Evidence Across Reconstruction, Scenes, and Pose Assets</h2>
         <p>
           GraspFoM predicts grasp poses together with object assets from the shared 3D latent. The examples
-          below show reconstructed geometry, 6-DoF grasp visualizations, scene-level outputs, and
-          browser-native 3D assets rendered from the same source used for the paper figures.
+          below show reconstructed geometry, 6-DoF grasp visualizations, and scene-level outputs.
         </p>
       </div>
 
@@ -348,78 +397,6 @@
         </div>
       </div>
 
-      <div class="asset-showcase interactive-models" id="interactive-3d">
-        <div class="showcase-heading">
-          <h3>Interactive 3D Pose Assets</h3>
-          <p>Rotate and zoom the reconstructed object-pose assets directly in the browser.</p>
-        </div>
-        <div class="model-grid">
-          <article class="model-card">
-            <model-viewer
-              src="./static/models/cola.glb"
-              alt="Interactive cola reconstruction and grasp pose asset"
-              camera-controls
-              auto-rotate
-              auto-rotate-delay="1200"
-              rotation-per-second="18deg"
-              interaction-prompt="none"
-              environment-image="neutral"
-              shadow-intensity="0.9"
-              shadow-softness="0.78"
-              exposure="1.28"
-              camera-orbit="38deg 68deg 170%"
-              min-camera-orbit="auto 12deg 110%"
-              max-camera-orbit="auto 88deg 260%">
-            </model-viewer>
-            <div>
-              <h4>Cola</h4>
-            </div>
-          </article>
-          <article class="model-card">
-            <model-viewer
-              src="./static/models/wine.glb"
-              alt="Interactive wine reconstruction and grasp pose asset"
-              camera-controls
-              auto-rotate
-              auto-rotate-delay="1200"
-              rotation-per-second="18deg"
-              interaction-prompt="none"
-              environment-image="neutral"
-              shadow-intensity="0.9"
-              shadow-softness="0.78"
-              exposure="1.28"
-              camera-orbit="38deg 68deg 170%"
-              min-camera-orbit="auto 12deg 110%"
-              max-camera-orbit="auto 88deg 260%">
-            </model-viewer>
-            <div>
-              <h4>Wine</h4>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="paper" class="section figures-section">
-      <div class="section-heading">
-        <p class="eyebrow">Paper</p>
-        <h2>Project Assets</h2>
-        <p>
-          The current project package includes the paper PDF and the overview figure used throughout the
-          website.
-        </p>
-      </div>
-
-      <div class="figure-gallery single">
-        <article class="figure-card">
-          <img src="./static/images/grasp_pipe.png" alt="GraspFoM pipeline overview">
-          <div>
-            <h3>GraspFoM Pipeline</h3>
-            <p>Shared foundation-prior reconstruction and anchor-conditioned grasp generation.</p>
-            <a href="./static/images/grasp_pipe.png">Open image</a>
-          </div>
-        </article>
-      </div>
     </section>
 
     <section id="citation" class="section citation-section">
@@ -432,10 +409,11 @@
           <i class="fa-regular fa-copy" aria-hidden="true"></i>
           <span>Copy</span>
         </button>
-        <pre id="bibtex">@misc{graspfom2026,
+        <pre id="bibtex">@article{wu2026graspfom,
   title={GraspFoM: Towards Reconstruction-Driven Robotic Grasping with 3D Foundation Priors},
-  year={2026},
-  note={Project page}
+  author={Wu, Dongli and Wei, Xiaobao and Wang, Hao and Dong, Qiaochu and Li, Ying and Wuwu, Qingpo and Lu, Ming and Zhao, Wufan},
+  journal={arXiv preprint},
+  year={2026}
 }</pre>
       </div>
     </section>
